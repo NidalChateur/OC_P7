@@ -4,7 +4,7 @@ import time
 import pandas as pd
 
 
-def load(path="./input/data.xlsx") -> dict:
+def load(path: str) -> dict:
     """read the table of data and convert it into dict"""
 
     stocks = {}
@@ -19,7 +19,7 @@ def load(path="./input/data.xlsx") -> dict:
     return stocks
 
 
-def possible_wallets(input_data: dict, max=500) -> list:
+def possible_wallets(input_data: dict, capacity: int) -> list:
     """Generate all possible wallets with a maximum constraint of [500]."""
 
     data = input_data
@@ -31,7 +31,7 @@ def possible_wallets(input_data: dict, max=500) -> list:
             for stock in wallet:
                 cost += data[stock]["price"]
                 value += data[stock]["price"] * (1 + data[stock]["profit"])
-            if cost <= max:
+            if cost <= capacity:
                 wallets.append([wallet, cost, value])
             cost, value = 0, 0
 
@@ -49,12 +49,14 @@ def output(wallets: list):
     data_to_export.to_excel("./output/output_brute_force.xlsx", index=False)
 
 
-def brute_force():
-    """run the brute force method"""
+def knapsack_brute_force(path="./input/data.xlsx", capacity=500):
+    """run the brute force method
+    'path : str' is the path of the input data
+    'capacity : int' is the capacity of the knapsack"""
 
     start = time.time()
-    input_data = load()
-    wallets = possible_wallets(input_data)
+    input_data = load(path)
+    wallets = possible_wallets(input_data, capacity)
     output(wallets)
     end = time.time()
     print(f"\n{2**len(input_data)} combinaisons tested in {end-start} secs.\n")
@@ -62,4 +64,4 @@ def brute_force():
     print("brute force method : ./output/output_brute_force.xlsx\n")
 
 
-brute_force()
+knapsack_brute_force(path="./input/data.xlsx", capacity=500)

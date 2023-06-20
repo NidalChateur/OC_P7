@@ -132,7 +132,7 @@ dmypy.json
 # data
 *.csv
 *.jpeg
-# *.xlsx
+*.xlsx
 *.json
 
 # .idea
