@@ -5,30 +5,28 @@ import numpy as np
 
 from psutil import virtual_memory
 
-from .read import read
 from .memory_control import memory_control
-from .progress_bar import progress_bar
-from .output import output
-import src.view
-from .draw_graph import graph
+from .view import progress_bar
 
 
 def is_int(prices: list) -> bool:
     """check if price type is int"""
 
     for i in prices:
-        if not isinstance(i, int) or not isinstance(i, np.int64):
+        if not isinstance(i, int) and not isinstance(i, np.int64):
             return False
 
     return True
 
 
 def scaler(prices: list, capacity: int) -> list:
+    """scale float number to int"""
+
     scaled = False
     if not is_int(prices):
         for i in range(len(prices)):
             prices[i] = int(prices[i] * 100)
-        capacity *= 100
+        capacity = (capacity * 100) - 2
         scaled = True
 
     return scaled, prices, int(capacity)
@@ -54,7 +52,7 @@ def dynamic_programming(
     scaled, weights, capacity = scaler(weights, capacity)
     table = [[0] * (capacity + 1) for _ in range(len(names) + 1)]
 
-    """ 2. For each element, iterate over all possible knapsack weights and 
+    """ 2. For each element, iterate over all possible knapsack weights and
     save the highest value that the current knapsack can achieve """
 
     for i in range(1, len(names) + 1):
@@ -81,7 +79,6 @@ def dynamic_programming(
 
     """ 4. get the name of all items included in the knapsack """
 
-    max_value = table[len(names)][capacity]
     selected_items = []
     cost = 0
     j = capacity
@@ -100,29 +97,3 @@ def dynamic_programming(
         cost /= 100
 
     return scaled, time_capture, memory_capture, [[selected_items, cost, max_value]]
-
-
-def run(file_path: str, capacity: int):
-    """run the dynamic programming method
-    'path : str' is the path of the input data
-    'capacity : int' is the capacity of the knapsack"""
-
-    report, input_data = read(file_path)
-    names = list(input_data.keys())
-    weights = [input_data[i]["price"] for i in names]
-    values = [input_data[j]["value"] for j in names]
-    scaled, time_capture, memory_capture, wallet = dynamic_programming(
-        names, weights, values, capacity
-    )
-    output_file_name = output(wallet, file_path, input_data, report, "dynamic")
-
-    src.view.method(
-        names,
-        capacity,
-        max(time_capture),
-        max(memory_capture),
-        len(report["excluded lines"]),
-        output_file_name,
-        scaled,
-    )
-    graph(time_capture, memory_capture)

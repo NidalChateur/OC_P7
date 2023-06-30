@@ -1,25 +1,29 @@
-""" The Brute Force method to resolve the knapsck problem
-    - Integer knapsack capacity
-    - Integer weights"""
+""" The Brute Force method to resolve the knapsck problem"""
 
 from itertools import combinations
 import time
+import sys
 
 from psutil import virtual_memory
-import pandas as pd
 
-from .read import read
+
 from .memory_control import memory_control
-from .progress_bar import progress_bar
-from .output import output
-import src.view
-from .draw_graph import graph
+from .view import progress_bar
+
+
+def maximum_limit(input_data: dict):
+    if len(input_data) > 20:
+        print(
+            "\n🛑 Do not exceed a maximum of 20 items when running the brute force method.\n"
+        )
+        sys.exit()
 
 
 def brute_force(input_data: dict, capacity: int) -> list:
     """generate all possible wallets with a maximum constraint of
     [capacity]."""
 
+    maximum_limit(input_data)
     start_memory = virtual_memory().used / (1024**2)
     start_time = time.time()
     memory_capture, time_capture = [], []
@@ -47,23 +51,3 @@ def brute_force(input_data: dict, capacity: int) -> list:
     progress_bar(100)
 
     return time_capture, memory_capture, wallets
-
-
-def run(file_path: str, capacity: int):
-    """run the brute force method
-    'path : str' is the path of the input data
-    'capacity : int' is the capacity of the knapsack"""
-
-    report, input_data = read(file_path)
-    time_capture, memory_capture, wallets = brute_force(input_data, capacity)
-    output_file_name = output(wallets, file_path, input_data, report, "brute_force")
-
-    src.view.method(
-        input_data,
-        capacity,
-        max(time_capture),
-        max(memory_capture),
-        len(report["excluded lines"]),
-        output_file_name,
-    )
-    graph(time_capture, memory_capture)

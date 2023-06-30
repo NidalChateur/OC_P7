@@ -1,4 +1,4 @@
-""" manage the output file """
+""" manage the file output """
 
 import pandas as pd
 
@@ -6,7 +6,12 @@ from .mkdir import remove_file
 
 
 def output(
-    wallets: list, file_path: str, input_data: dict, report: dict, method: str
+    capacity: int,
+    wallets: list,
+    file_path: str,
+    input_data: dict,
+    report: dict,
+    method: str,
 ) -> str:
     """sort the wallets list and write the best wallet in an Excel file
     generate a report error"""
@@ -15,10 +20,11 @@ def output(
     output_1 = [
         {
             "the best wallet": d[0],
+            "capacity": capacity,
             "total cost": d[1],
             "total value": d[2],
             "total return": d[2] - d[1],
-            "report": len(report["excluded lines"]),
+            "reported error": len(report["excluded lines"]),
         }
         for d in wallets
     ]
@@ -45,4 +51,4 @@ def output(
     df3.to_excel(writer, sheet_name="report", index=False)
     writer.close()
 
-    return f"./output/dynamic_{file_name}.xlsx"
+    return f"./output/{method}_{file_name}.xlsx"

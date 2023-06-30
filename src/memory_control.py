@@ -8,5 +8,5 @@ def memory_control():
     if not the script will be stopped"""
 
     if virtual_memory().percent > 80:
-        print(f"\nSorry... there is not enough memory in your PC to continue.\n")
+        print("\nSorry... there is not enough memory in your PC to continue.\n")
         sys.exit()

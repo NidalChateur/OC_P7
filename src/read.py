@@ -1,12 +1,11 @@
-""" read csv, xlsx files and generate report error """
+""" read csv, xlsx files and generate an error report  """
 
-import sys, csv
+import sys
+import csv
 import numpy as np
 
 import pandas as pd
 from pandas import DataFrame
-
-from .mkdir import remove_file
 
 
 def duplicate_detecter(data_frame: DataFrame, line_number: int, file_type: str):
@@ -174,7 +173,7 @@ def read(file_path: str) -> dict:
 
         stocks[stock_name] = {
             "price": price,
-            "value": price * (1 + (profit / 100)),
+            "value": round(price * (1 + (profit / 100)), 2),
         }
 
     test_no_data(stocks)
