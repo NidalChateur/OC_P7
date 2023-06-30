@@ -108,8 +108,6 @@ The input file format :
 
 Place your input file in the folder './input/' before running 'step 2' to be able to select it.
 
-Error Report :
-Any invalid data will not be taken into account and will be registered into an error report. (All duplicates, or stocks with price or profit <=0 or NaN)
 ## Feedback/Question
 
 If you have any feedback or questions, please reach out to me at nidalchateur@gmail.com
