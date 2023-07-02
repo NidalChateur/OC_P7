@@ -1,3 +1,5 @@
+"""AlgoInvest&Trade"""
+
 from src.mkdir import is_existing, create_folder
 from src.controller import controller
 

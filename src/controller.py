@@ -9,6 +9,8 @@ from .run import run
 
 
 def controller():
+    """main controller and homepage controller"""
+
     running = True
     while running:
         reponse1 = homepage()
@@ -22,6 +24,8 @@ def controller():
 
 
 def input_file_controller():
+    """input_file controller"""
+
     reponse = input_file()
     reponse = input_cleaner(reponse)
     if reponse == "1":
@@ -35,6 +39,8 @@ def input_file_controller():
 
 
 def file_selecter_controller():
+    """select_file controller"""
+
     folder_path = "./input/"
     files = os.listdir(folder_path)
     files_path_list = []
@@ -67,6 +73,8 @@ def file_selecter_controller():
 
 
 def method_selecter_controller(file_path: str):
+    """select_method controller"""
+
     reponse = select_method(file_path)
     reponse = input_cleaner(reponse)
     if reponse == "1":

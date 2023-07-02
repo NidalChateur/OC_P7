@@ -13,8 +13,7 @@ def output(
     report: dict,
     method: str,
 ) -> str:
-    """sort the wallets list and write the best wallet in an Excel file
-    generate a report error"""
+    """manage the file output : the solution and the report error"""
 
     wallets = sorted(wallets, key=lambda w: (-w[2]))[:1]
     output_1 = [

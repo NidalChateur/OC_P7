@@ -9,10 +9,8 @@ from .draw_graph import graph
 
 
 def run(file_path: str, capacity: int, method: str):
-    """run the brute force method
-    'path : str' is the path of the input data
-    'capacity : int' is the capacity of the knapsack
-    method =="brute_force" or"""
+    """run the brute force or the dynamic programming method
+    method in ["brute_force", 'dynamic']"""
 
     knapsac_capacity = capacity
     scaled = False

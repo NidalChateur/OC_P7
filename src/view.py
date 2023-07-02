@@ -112,12 +112,9 @@ def select_file(files_path_list: list, folder_path: str) -> list:
     return input("\nyour choice > ")
 
 
-def no_file():
-    print("\n🛑 No file to select !\n")
-    print("\nPlease drop in the 'input' folder a valid file.\n")
-
-
 def select_method(file_path: str):
+    "Display the list of selectable methods"
+
     console_clear()
     centered_text = center("[bold white]Step 3 : select your algorithm[/bold white]")
     line1 = "[not bold green]1. The dynamic programming method (recommended)[/not bold green]"
@@ -148,10 +145,11 @@ def result(
     scaled: bool,
     method: str,
 ):
-    """brute force and dynamic programming view
+    """display brute force or dynamic programming result
     input_data: dict for brute force
     input_data: list for dynamic programming
     """
+
     time_difference = round(time_difference, 2)
     memory_difference = round(memory_difference, 2)
     if len(input_data) > 1:
@@ -183,3 +181,31 @@ def result(
         )
         print("Here is the best wallet found using the dynamic programming")
         print(f"method : '{output_file_name}' \n")
+
+
+def no_file():
+    """display an error message if there is no valid input file"""
+
+    print("\n🛑 No file to select !\n")
+    print("\nPlease drop in the 'input' folder a valid file.\n")
+
+
+def no_value():
+    """display an error message if there is no valid value to analyse"""
+
+    print("\n🛑 There is no valid value to analyse in this file.\n")
+
+
+def key_error():
+    """display an error message if the input file columns are wrongly named"""
+
+    print(
+        "\n🛑 In the input file, column A must be named 'name', column B must be named 'price',"
+    )
+    print("and column C must be named 'profit'.\n")
+
+
+def memory_saturation():
+    """display an error message if there is no enough memory to continue"""
+
+    print("\n🛑 Sorry... there is not enough memory in your PC to continue.\n")

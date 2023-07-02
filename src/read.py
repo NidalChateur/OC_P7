@@ -7,6 +7,8 @@ import numpy as np
 import pandas as pd
 from pandas import DataFrame
 
+from .view import key_error, no_value
+
 
 def duplicate_detecter(data_frame: DataFrame, line_number: int, file_type: str):
     """check the presence of the duplicates stock name"""
@@ -14,16 +16,20 @@ def duplicate_detecter(data_frame: DataFrame, line_number: int, file_type: str):
     duplicates = []
     stocks_name = []
     for i in range(line_number):
-        if file_type == "csv":
-            if data_frame.loc[i, "name"] not in stocks_name:
-                stocks_name.append(data_frame.loc[i, "name"])
-            else:
-                duplicates.append(data_frame.loc[i, "name"])
-        if file_type == "xlsx":
-            if data_frame.at[i, "name"] not in stocks_name:
-                stocks_name.append(data_frame.at[i, "name"])
-            else:
-                duplicates.append(data_frame.at[i, "name"])
+        try:
+            if file_type == "csv":
+                if data_frame.loc[i, "name"] not in stocks_name:
+                    stocks_name.append(data_frame.loc[i, "name"])
+                else:
+                    duplicates.append(data_frame.loc[i, "name"])
+            if file_type == "xlsx":
+                if data_frame.at[i, "name"] not in stocks_name:
+                    stocks_name.append(data_frame.at[i, "name"])
+                else:
+                    duplicates.append(data_frame.at[i, "name"])
+        except KeyError:
+            key_error()
+            sys.exit()
 
     return duplicates
 
@@ -32,7 +38,7 @@ def test_no_data(stocks: dict):
     """check the stocks number and stop the script if len ==0"""
 
     if len(stocks) == 0:
-        print("\nThere is no valid data to analyse in this file.\n")
+        no_value()
         sys.exit()
 
 
@@ -117,19 +123,23 @@ def read_csv_xlsx(file_path: str) -> DataFrame:
 
 
 def data_line(data_frame: DataFrame, i: int, file_type: str) -> str:
-    if file_type == "csv":
-        return (
-            data_frame.loc[i, "name"],
-            data_frame.loc[i, "price"],
-            data_frame.loc[i, "profit"],
-        )
+    try:
+        if file_type == "csv":
+            return (
+                data_frame.loc[i, "name"],
+                data_frame.loc[i, "price"],
+                data_frame.loc[i, "profit"],
+            )
 
-    if file_type == "xlsx":
-        return (
-            data_frame.at[i, "name"],
-            data_frame.at[i, "price"],
-            data_frame.at[i, "profit"],
-        )
+        if file_type == "xlsx":
+            return (
+                data_frame.at[i, "name"],
+                data_frame.at[i, "price"],
+                data_frame.at[i, "profit"],
+            )
+    except KeyError:
+        key_error()
+        sys.exit()
 
 
 def read(file_path: str) -> dict:

@@ -108,6 +108,12 @@ The input file format :
 
 Place your input file in the folder './input/' before running 'step 2' to be able to select it.
 
+Output, an Excel file with 3 tabs:
+- 'global' : an overview on the solution and the error report
+- 'choosen stocks' : the portfolio in detail
+- 'report' : The scripts manages exceptions and registers them into an error report 
+
+
 ## Feedback/Question
 
 If you have any feedback or questions, please reach out to me at nidalchateur@gmail.com
